@@ -74,16 +74,18 @@ test("Soft Switch Select Drive 1", function() {
 });
 
 test("Phase Ascending Tracks", function() {
-  expect(3);
+  expect(5);
   diskToo.phases = [0,0,0,0];
   diskToo.update_soft_switch(0xC081, 0x1337);
-  equal([1,0,0,0], [1,0,0,0]);
+  equal(diskToo.phases.toString(), [1,0,0,0].toString());
   diskToo.update_soft_switch(0xC083, 0x1337);
+  equal(diskToo.phases.toString(), [1,1,0,0].toString());
+  equal(diskToo.currPhysTrack, 1);
   diskToo.update_soft_switch(0xC080, 0x1337);
   diskToo.update_soft_switch(0xC085, 0x1337);
   diskToo.update_soft_switch(0xC082, 0x1337);
   equal(diskToo.currPhysTrack, 2);
-  equal(diskToo.phases, [0,0,1,0]);
+  equal(diskToo.phases.toString(), [0,0,1,0].toString());
 });
   
 test("Find Direction method ending inbetween", function() {
