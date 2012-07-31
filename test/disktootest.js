@@ -120,3 +120,19 @@ test("Edge cases in find Direction", function() {
   diskToo.findDirection([1,0,0,1], [0,0,0,1]);
   equal(diskToo.currPhysTrack, 5);
 });
+
+test("Finding the actual track", function () {
+  expect(3);
+  diskToo.currPhysTrack = 0;
+  diskToo.phases = [0,0,0,0];
+  diskToo.update_soft_switch(0xC081, 0x1337);
+  diskToo.update_soft_switch(0xC083, 0x1337);
+  diskToo.update_soft_switch(0xC080, 0x1337);
+  diskToo.update_soft_switch(0xC085, 0x1337);
+  diskToo.update_soft_switch(0xC082, 0x1337);
+  equal(diskToo.currTrack, 1);
+  equal(diskToo.onRealTrack, true);
+  diskToo.update_soft_switch(0xC087, 0x1337);
+  diskToo.update_soft_switch(0xC084, 0x1337);
+  equal(diskToo.onRealTrack, false);
+});

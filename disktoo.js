@@ -48,6 +48,7 @@ var DiskToo = function (appleToo, numDrives) {
   this.writeMode = false;
   this.loadMode = false;
   this.driveSpin = false;
+  this.onRealTrack = true;
 
 
   for (var i = 0; i < numDrives.length; i++) {
@@ -191,10 +192,32 @@ DiskToo.prototype.findDirection = function (currTrack, finalTrack) {
 
   if(moved) {
     this.currPhysTrack = goingUp ? this.currPhysTrack + 1: this.currPhysTrack - 1;
+    this.findMemoryTrack();
    //TODO: implement the actual track variable.
 
   }
 };
+
+DiskToo.prototype.findMemoryTrack = function () {
+  if (this.currPhysTrack < 0) {
+    this.currPhysTrack = 0;
+    this.currTrack = 0;
+    return;
+  }
+  //This will for now assume that the tracks are separated as on .bin files
+  //found commonly on the internet
+  //TODO: Allow for arbitrary track spacing.
+  if( (this.currPhysTrack ) % 4 === 0 ){
+    this.currTrack = ((this.currPhysTrack ) / 4) ;
+    this.onRealTrack = true;
+    return;
+  } else {
+    this.onRealTrack = false;
+  }
+  
+  
+
+}
 
 DiskToo.prototype.readDisk = function (diskData) {
   var buffer = [];
