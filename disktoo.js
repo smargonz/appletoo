@@ -119,7 +119,8 @@ DiskToo.prototype.update_soft_switch = function(address, value) {
 };
 
 DiskToo.prototype.setPhaseMotors = function (addr) {
-
+   var currentPhases = this.phases.slice(0);
+   
   switch (addr & 0xf) {
     case 0x0:
       this.phases[0] = 0;
@@ -149,7 +150,8 @@ DiskToo.prototype.setPhaseMotors = function (addr) {
       break;
   }
 
-
+   var finalPhases = this.phases.slice(0);
+   this.findDirection( currentPhases, finalPhases );   
 };
 
 DiskToo.prototype.findDirection = function (currTrack, finalTrack) {
@@ -158,6 +160,9 @@ DiskToo.prototype.findDirection = function (currTrack, finalTrack) {
   var finalPhase = undefined;
   var otherMotor = undefined;
   var moved = false;
+
+  if( currTrack.reduce( function ( a, b ) { return a + b; }) === 0 )
+	return; 	
 
   switch (finalTrack.reduce( function ( a, b ) { return a + b; })) {
     case 1: //This implies that you are at a full physical track
@@ -180,7 +185,7 @@ DiskToo.prototype.findDirection = function (currTrack, finalTrack) {
       break;
     case 0: //No motors -- no change, weird combination.
       break;
-    default:
+      default:
       throw new Error("Too many motors on at once!");
   }
 

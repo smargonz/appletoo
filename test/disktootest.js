@@ -84,7 +84,7 @@ test("Phase Ascending Tracks", function() {
   diskToo.update_soft_switch(0xC080, 0x1337);
   diskToo.update_soft_switch(0xC085, 0x1337);
   diskToo.update_soft_switch(0xC082, 0x1337);
-  equal(diskToo.currPhysTrack, 2);
+  equal(diskToo.currPhysTrack, 4);
   equal(diskToo.phases.toString(), [0,0,1,0].toString());
 });
   
