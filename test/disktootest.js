@@ -10,6 +10,7 @@ var a2,
 	setup: function(){
 	    a2 = new AppleToo();
 	    diskToo = new DiskToo(a2, 2);
+	    a2.setPeripheral( diskToo, 6 );
 	},
 	teardown: function() {
 	    a2 = undefined;
